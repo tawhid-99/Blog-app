@@ -1,4 +1,4 @@
-import { createUser, findByEmail } from "../repositories/user.repository";
+import { createUser, findByEmail, findById } from "../repositories/user.repository";
 import { hashPassword, verifyPassword } from "../utils/hash";
 import { generateToken } from "../utils/jwt";
 
@@ -39,4 +39,8 @@ export const userLogin = async (email: string, password: string) => {
     return {
         token
     }
+}
+
+export const getCurrentUser = async (userId: number) => {
+    return findById(userId)
 }

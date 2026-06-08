@@ -14,3 +14,9 @@ export const userLogin = async (req: Request, res: Response) => {
 
     res.status(200).json(user)
 }
+
+export const me = async (req: Request, res: Response) => {
+    const user = await authService.getCurrentUser(req.user!.userId)
+    
+    res.json(user)
+}

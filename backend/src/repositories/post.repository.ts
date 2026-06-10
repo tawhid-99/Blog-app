@@ -32,10 +32,10 @@ export const createPost = async (title: string, content: string, authorId: numbe
     })
 }
 
-export const updatePost = async (id: number, title?: string, content?: string) => {
+export const updatePost = async (id: number, data: {title?: string, content?: string}) => {
     return prisma.post.update({
         where: {id},
-        data: {title, content}
+        data
     })
 }
 

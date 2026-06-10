@@ -12,10 +12,28 @@ export const createPost = async (title: string, content: string, userId: number)
     return postRespository.createPost(title, content, userId)
 }
 
-export const updatePost = async (id: number, title: string, content: string) => {
-    return postRespository.updatePost(id, title, content)
+export const updatePost = async (postId: number, userId: number, data: {title?: string, content?: string}) => {
+    const post = await getPostById(postId)
+
+    if (!post) {
+        throw new Error("Post not found")
+    }
+
+    if (post.authorId !== userId) {
+        throw new Error("unauthorized")
+    }
+    return postRespository.updatePost(postId, data)
 }
 
-export const deletePost = async (id: number) => {
-    return postRespository.deletePost(id)
+export const deletePost = async (postId: number, userId: number) => {
+    const post = await getPostById(postId)
+
+    if (!postId) {
+        throw new Error("post not found")
+    }
+
+    if (post?.authorId !== userId) {
+        throw new Error("unauthorized")
+    }
+    return postRespository.deletePost(postId)
 }

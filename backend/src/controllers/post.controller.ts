@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import * as postService from "../services/post.service"
-import { id } from "zod/locales";
 
 export const createPost = async (req: Request, res: Response) => {
     const {title, content} = req.body
@@ -37,8 +36,9 @@ export const getPostById = async (req: Request, res: Response) => {
 
 export const updatePost = async (req: Request, res: Response) => {
     const postId = Number(req.params.id)
-    const {title, content} = req.body
-    const post = await postService.updatePost(postId, title, content)
+    const data = req.body
+    const userId = Number(req.user?.userId)
+    const post = await postService.updatePost(postId, userId, data)
 
     res.json({
         "updated post": post
@@ -47,7 +47,9 @@ export const updatePost = async (req: Request, res: Response) => {
 
 export const deletePost = async (req: Request, res: Response) => {
     const postId = Number(req.params.id)
-    const post = await postService.deletePost(postId)
+    const userId = Number(req.user?.userId)
+
+    const post = await postService.deletePost(postId, userId)
 
     res.json({
         "message": "post deleted"
